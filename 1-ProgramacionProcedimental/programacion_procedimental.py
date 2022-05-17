@@ -24,6 +24,11 @@ import random
 
 
 def generar_numero_secreto():
+    """
+    Genera un número secreto el cual:
+    - No tiene números repetidos
+    - Es de 3 cifras
+    """
     global numero_secreto
     lista = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     numeros_secretos = random.sample(lista, 3)
@@ -32,6 +37,7 @@ def generar_numero_secreto():
     numero_secreto += numeros_secretos[2]
 
 
+@staticmethod
 def adivina_numero():
     numero_ingresado = int(input("Ingrese un número: "))
     if numero_ingresado > numero_secreto:
@@ -45,16 +51,13 @@ def adivina_numero():
         jugar()
 
 
-"""
-Adivina el número
-"""
-
-
 def jugar_adivina_numero():
+    """
+    Juego inicial de adivina el número, se genera el número secreto para luego
+    iniciar a adivinar es número
+    """
     generar_numero_secreto()
     adivina_numero()
-
-
 
 
 def obtener_posicion(turno):
@@ -180,7 +183,7 @@ def jugar_triqui():
     """
     global tablero_triqui
     tablero_triqui = [["", "", ""], ["", "", ""], ["", "", ""]]
-    print("Posiciones:\n 1 | 2 | 3 \n-----------\n 4 | 5 | 6 \n-----------\n 7 | 8 | 9 ")
+    print("Posiciones:\n 7 | 8 | 9 \n-----------\n 4 | 5 | 6 \n-----------\n 1 | 2 | 3 ")
     turno_triqui("x")
 
 
@@ -204,6 +207,7 @@ def jugar():
     elif juego == 4:
         pass
     else:
+        print("Ingrese un valor valido\n")
         jugar()
 
 

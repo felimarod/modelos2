@@ -1,7 +1,7 @@
-# modelos2
-Repositorio para alojar la solución a los talleres de la clase Modelos de Programación II
+# Talleres para Modelos de Programación II
+Repositorio para alojar las soluciones a los talleres de la clase Modelos de Programación II
 
 ## Integrantes
-- Diego Armando Hernandez 202010201
-- Andres Felipe Martin 20201020137
+- Diego Armando Hernández Chávez - 20201020175
+- Andres Felipe Martin Rodríguez - 20201020137
 

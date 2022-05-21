@@ -2,6 +2,7 @@
 Repositorio para alojar las soluciones a los talleres de la clase Modelos de Programación II
 
 ## Integrantes
-- Diego Armando Hernández Chávez - 20201020175
+- Mabel Nathalia Rojas Gomez - 20201020124
+- José Santiago García Toro - 20201020142
 - Andres Felipe Martin Rodríguez - 20201020137
 

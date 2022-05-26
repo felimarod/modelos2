@@ -65,12 +65,12 @@ public class Sudoku {
 		int numunassign = 0;
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
-				// la celda no estÃ¡ asignada
+				// la celda no está asignada
 				if (matrix[i][j] == 0) {
 					// cambiando los valores de row y col
 					row = i;
 					col = j;
-					// hay una o mÃ¡s celdas sin asignar
+					// hay una o más celdas sin asignar
 					numunassign = 1;
 					return new int[] { numunassign, row, col };
 				}

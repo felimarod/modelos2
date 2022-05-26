@@ -3,6 +3,6 @@ Repositorio para alojar las soluciones a los talleres de la clase Modelos de Pro
 
 ## Integrantes
 - Mabel Nathalia Rojas Gomez - 20201020124
-- José Santiago García Toro - 20201020142
+- José Santiago García Toro - 20201020170
 - Andres Felipe Martin Rodríguez - 20201020137
 

@@ -1,3 +1,4 @@
+console.log("si wenas")
 // Tamaño del tablero SIZE*SIZE
 let SIZE = 9;
 
@@ -76,3 +77,65 @@ function numberUnassigned(row, col){
     }
     return [ numunassign, -1, -1];
 }
+/**
+	 * Función para comprobar si podemos poner un
+	 * valor en una celda particular o no
+	 */
+function isSafe(n, r, c) {
+  // comprobando en fila
+  for (let i = 0; i < SIZE; i++)
+    if (matrix[r][i] == n && i != c)
+      return false;
+  // comprobando la columna
+  for (let i = 0; i < SIZE; i++)
+    if (matrix[i][c] == n && i != r)
+      return false;
+  // comprobación de submatriz
+  row_start = (r / 3) * 3;
+  col_start = (c / 3) * 3;
+  for (let i = row_start; i < row_start + 3; i++)
+    for (let j = col_start; j < col_start + 3; j++)
+      if (matrix[i][j] == n && i != r && j != c)
+        return false;
+  return true;
+}
+
+/** Función para resolver sudoku usando recursividad */
+function solveSudoku() {
+  row = 0;
+	col = 0;
+	a = numberUnassigned(row, col);
+	/*
+	* si todas las celdas están asignadas, el sudoku ya está resuelto
+	* pasar por referencia porque number_unassigned cambiará los valores de row y
+	* col */
+	if (a[0] == 0)
+	  return true;
+  // número entre 1 y 9
+  row = a[1];
+  col = a[2];
+  for (let i = 1; i <= SIZE; i++) {
+    // si podemos asignar i a la celda o no
+    // la celda es matriz [fila] [col]
+    if (isSafe(i, row, col)) {
+      matrix[row][col] = i;
+      // retroceder
+      if (solveSudoku())
+        return true;
+      // si no podemos continuar con esta solución
+      // reasignar la matriz de celda
+      matrix[row][col] = 0;
+    }
+  }
+  return false;
+}
+/** Verificar que los números sean correctos */
+function isFine() {
+  for (let i = 0; i < SIZE; i++)
+    for (let j = 0; j < SIZE; j++)
+      if (!isSafe(matrix[i][j], i, j))
+        return false;
+  return true;
+}
+
+matrix = SUDOKU1;

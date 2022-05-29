@@ -1,20 +1,10 @@
-public class Sudoku {
+public class java {
 
 	/** Tamaño del tablero SIZE*SIZE */
 	private static final int SIZE = 9;
 
 	/** Tablero en el cual se va a trabajar */
-	private final int[][] matrix = {
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-			{ 0, 0, 0, 0, 0, 0, 0, 0, 0 }
-	};
+	private final int[][] matrix = new int[9][9];
 
 	/** Tablero a solucionar #1 */
 	public static final int[][] SUDOKU1 = {
@@ -110,7 +100,8 @@ public class Sudoku {
 		/*
 		 * si todas las celdas están asignadas, el sudoku ya está resuelto
 		 * pasar por referencia porque number_unassigned cambiará los valores de row y
-		 * col */
+		 * col
+		 */
 		if (a[0] == 0)
 			return true;
 		// número entre 1 y 9
@@ -139,5 +130,68 @@ public class Sudoku {
 				if (!isSafe(matrix[i][j], i, j))
 					return false;
 		return true;
+	}
+
+	public void verificar() {
+		System.out.println();
+		if (isFine()) {
+			System.out.println("\nSolución:\n");
+			imprimirMatriz();
+			System.out.println();
+			System.out.println("Se ha solucionado el sudoku");
+		} else
+			System.out.println("El sudoku no tiene solución");
+	}
+
+	public void mensajeInicial() {
+		// imprimir matriz inicial
+		System.out.println("\nSudoku a resolver:\n");
+		imprimirMatriz();
+	}
+
+	void imprimirMatriz() {
+		for (int i = 0; i < SIZE; i++) {
+			for (int j = 0; j < SIZE; j++)
+				if (j == 2 || j == 5)
+					System.out.print(matrix[i][j] + " | ");
+				else
+					System.out.print(matrix[i][j] + "   ");
+
+			if (i == 2 || i == 5)
+				System.out.print("\n---------------------------------");
+			System.out.println();
+		}
+	}
+
+	public void setMatriz(int numMatriz) {
+		int[][] matAux = null;
+		if (numMatriz == 1)
+			matAux = SUDOKU1;
+		else if (numMatriz == 2)
+			matAux = SUDOKU2;
+		else if (numMatriz == 3)
+			matAux = SUDOKU3;
+
+		for (int i = 0; i < 9; i++)
+			for (int j = 0; j < 9; j++)
+				matrix[i][j] = matAux[i][j];
+	}
+
+	public static void main(String[] args) {
+		long time_start, time_end;
+
+		java sudokuSolver = new java();
+		sudokuSolver.setMatriz(3);
+		sudokuSolver.mensajeInicial();
+
+		time_start = System.currentTimeMillis();
+
+
+		sudokuSolver.solveSudoku();
+
+		time_end = System.currentTimeMillis();
+		System.out.println("the task has taken " + (time_end - time_start) + " milliseconds");
+
+		sudokuSolver.verificar();
 	}
 }

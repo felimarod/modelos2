@@ -21,7 +21,8 @@ ADIVINA EL NÚMERO:
 """
 
 import random
-
+import os
+import time
 
 def generar_numero_secreto():
     """
@@ -32,20 +33,24 @@ def generar_numero_secreto():
     global numero_secreto
     lista = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     numeros_secretos = random.sample(lista, 3)
-    numero_secreto = numeros_secretos[0] * 100
-    numero_secreto += numeros_secretos[1] * 10
-    numero_secreto += numeros_secretos[2]
+    numero_secreto = numeros_secretos[0] * 100 # Centenas
+    numero_secreto += numeros_secretos[1] * 10 # Decenas
+    numero_secreto += numeros_secretos[2]      # Unidades
+    return numero_secreto
 
 
-@staticmethod
-def adivina_numero():
+def adivina_numero (numero_secreto):
+    """
+    Verifica y compara si el número ingresado por el usuario es mayor, menor o igual al número generado en la
+    función "generar_numero_secreto()"
+    """
     numero_ingresado = int(input("Ingrese un número: "))
     if numero_ingresado > numero_secreto:
         print("El número secreto es menor")
-        adivina_numero()
+        adivina_numero(numero_secreto)
     elif numero_ingresado < numero_secreto:
         print("El número secreto es mayor")
-        adivina_numero()
+        adivina_numero(numero_secreto)
     else:
         print("\nDiste con el número secreto!!!\nFelicidades!!!\nGanaste!!!\n\n")
         jugar()
@@ -54,13 +59,15 @@ def adivina_numero():
 def jugar_adivina_numero():
     """
     Juego inicial de adivina el número, se genera el número secreto para luego
-    iniciar a adivinar es número
+    comenzar a adivinar cuál es 
     """
-    generar_numero_secreto()
-    adivina_numero()
+    adivina_numero(generar_numero_secreto())
 
 
 def obtener_posicion(turno):
+    """
+    Verifica las casillas por posición en forma de matriz 3*3
+    """
     print(f"Turno de: {turno}")
     posicion = int(input("\nIngrese el número de la posición elegida:\n"))
     if posicion == 7:
@@ -103,6 +110,9 @@ def obtener_posicion(turno):
 
 
 def hay_posiciones_libres():
+    """
+    Revisa si hay casillas disponibles para ocupar, de ser cierto le retorna verdadero de lo contrario retorna falso
+    """
     espacios = 0
     for fila in tablero_triqui:
         for posicion in fila:
@@ -115,6 +125,9 @@ def hay_posiciones_libres():
 
 
 def gano(turno):
+    """
+    Comprueba si tres casillas han sido ocupadas, puede ser de manera vertical, horizontal o diagonal
+    """
     for i in range(0, 3):
         if (
             tablero_triqui[i][0] == turno
@@ -156,8 +169,7 @@ def imprimir_tablero():
 
 def turno_triqui(turno):
     if hay_posiciones_libres():
-
-        # print(tablero_triqui)
+         # print(tablero_triqui)
         posicion = obtener_posicion(turno)
         tablero_triqui[posicion[0]][posicion[1]] = turno
         imprimir_tablero()
@@ -166,8 +178,10 @@ def turno_triqui(turno):
             jugar()
         else:
             if turno == "x":
+                limpiar_terminal()
                 turno_triqui("o")
             elif turno == "o":
+                limpiar_terminal()
                 turno_triqui("x")
     else:
         print("Nadie gano\n\n")
@@ -187,8 +201,97 @@ def jugar_triqui():
     turno_triqui("x")
 
 
+def limpiar_terminal():
+    if os.name == "nt":
+        os.system("cls")
+    else:
+        os.system("clear")
+
+
+def generar_numero_secreto():
+    """
+    Genera un número secreto el cual:
+    - No tiene números repetidos
+    - Es de 3 cifras
+    """
+    global numeros_secretos
+    lista = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    numeros_secretos = random.sample(lista, 3)
+    numero_secreto = numeros_secretos[0] * 100
+    numero_secreto += numeros_secretos[1] * 10
+    numero_secreto += numeros_secretos[2]
+    return numero_secreto
+
+
+def mostrar_jugadas_anteriores():
+    if len(registro) > 0:
+        print("Número\tPicas\tFijas")
+        for intento in registro:
+            print(intento["Numero"], "\t", intento["Picas"], "\t", intento["Fijas"], "\n")
+
+
+def ingresar_numero():
+    global str_numero
+    str_numero = input("Digita un número de 3 cifras: ")
+
+    if str_numero.isnumeric():  # Verifica que sea un número
+        num = int(str_numero)
+        if num < 100 or num > 999:
+            print("Error, ingrese un número entre 100 y 999\n")
+            time.sleep(2)
+            return ingresar_numero()
+        lista = [int(str_numero[0]), int(str_numero[1]), int(str_numero[2])]
+        for i in lista:
+            if lista.count(i) >= 2:
+                print("Error, los 3 números deben ser diferentes\n")
+                time.sleep(2)
+                return ingresar_numero()
+        return num
+    else:
+        print("Error, ingrese un número\n")
+        time.sleep(2)
+        return ingresar_numero()
+
 def jugar_picas_fijas():
-    pass
+    num = 0
+    num_fijas = 0
+    num_picas = 0
+    global registro
+    registro = []
+
+    # Mensaje pantalla principal
+    limpiar_terminal()
+    print("-----------------------------")
+    print("Vamos a jugar Picas & Fijas!!!")
+    print("-----------------------------")
+    time.sleep(2)
+
+    numero_secreto = generar_numero_secreto()
+
+    while num != numero_secreto:
+        num_fijas = 0
+        num_picas = 0
+        limpiar_terminal()
+        mostrar_jugadas_anteriores()
+        num = ingresar_numero()
+        for i in range(0, 3):
+            if numeros_secretos.count(int(str_numero[i])) == 1:
+                if int(str_numero[i]) == numeros_secretos[i]:
+                    num_fijas += 1
+                else:
+                    num_picas += 1
+        if num != numero_secreto:
+            dic = {"Numero": num, "Picas": num_picas, "Fijas": num_fijas}
+            registro.append(dic)
+
+    limpiar_terminal()
+    print("-----------------------------")
+    mostrar_jugadas_anteriores()
+    print(f"Felicidades!!! Lo encontraste!!!\nGanaste en {1 + len(registro)} intentos\nEl número era: {numero_secreto}")
+    print("-----------------------------")
+    jugar()
+
+
 
 
 def jugar():

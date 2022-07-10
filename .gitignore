@@ -31,3 +31,6 @@
 *.out
 *.app
 /3.Figuras/Figuras Graficas/nbproject/private/
+/3.Figuras/Figuras Graficas/build/
+/3.Figuras/Grafica Poligonos/nbproject/private/
+/3.Figuras/Grafica Poligonos/build/

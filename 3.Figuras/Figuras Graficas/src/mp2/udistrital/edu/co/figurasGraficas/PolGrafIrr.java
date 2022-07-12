@@ -28,18 +28,67 @@ import java.awt.Graphics;
 
 public class PolGrafIrr extends FiguraGrafica {
 
-    private final int[] coordsX, coordsY;
 
-    public PolGrafIrr(String nombre, int[] coordsX, int[] coordsY) {
+    public PolGrafIrr(String nombre) {
         super(nombre);
-        this.coordsX = coordsX;
-        this.coordsY = coordsY;
+    }
+    
+    public int getVertices() {
+        return vertices;
+    }
+
+    public void setVertices(int vertices) {
+        this.vertices = vertices;
+    }
+
+    public int[] getCoordsX(){
+        return coordsX;
+    }
+
+    public void setCoordsX(String posX) {
+        posX = posX.replaceAll("\\s+", "");
+        String[] auxCoor = posX.split(",");
+        coordsX = new int[auxCoor.length];
+        for(int i= 0;i<coordsX.length; i++)
+            try{
+                coordsX[i] = Integer.parseInt(auxCoor[i]);
+            } catch (NumberFormatException nfe){
+                System.out.println("Se ingreso mal una coordenada en x");
+            }
+    }
+
+    public int[] getCoordsY() {
+        return coordsY;
+    }
+
+    public void setCoordsY(String posY) {
+        posY = posY.replaceAll("\\s+", "");
+        String[] auxCoor = posY.split(",");
+        coordsY = new int[auxCoor.length];
+        for(int i= 0;i<coordsY.length; i++)
+            try{
+                coordsY[i] = Integer.parseInt(auxCoor[i]);
+            } catch (NumberFormatException nfe){
+                System.out.println("Se ingreso mal una coordenada en y");
+            }
+    }
+    
+    @Override
+    public double getPerimetro(){
+        double temp = 0;
+        for(int i = 1; i < coordsX.length; i++){
+            temp += Math.hypot((coordsX[i]-coordsX[i-1]), (coordsY[i]-coordsY[i-1]));
+        }
+        temp += Math.hypot((coordsX[0]-coordsX[coordsX.length-1]), (coordsY[0]-coordsY[coordsY.length-1]));
+        return temp;
     }
 
     @Override
     public void dibujar(Graphics g) {
-        g.setColor(Color.BLUE);
-        g.drawPolygon(coordsX, coordsY, coordsX.length - 1);
+        g.setColor(Color.WHITE);
+        g.fillRect(0, 0, 900, 900);
+        g.setColor(Color.DARK_GRAY);
+        g.drawPolygon(coordsX, coordsY, vertices);
     }
 
     @Override
@@ -57,20 +106,9 @@ public class PolGrafIrr extends FiguraGrafica {
 
         //JOptionPane.showMessageDialog(null, "Sumatoria de X es: " + sumatoriaX);
         //JOptionPane.showMessageDialog(null, "Sumatoria de Y es: " + sumatoriaY);
-        int diferenciaXY = 0;
-        if (sumatoriaX > sumatoriaY) {
-            diferenciaXY = sumatoriaX - sumatoriaY;
-        }
-        if (sumatoriaY > sumatoriaX) {
-            diferenciaXY = sumatoriaY - sumatoriaX;
-        }
-
+        int diferenciaXY = Math.abs(sumatoriaX - sumatoriaY);
+        
         return diferenciaXY / 2;
-    }
-
-    @Override
-    public double getPerimetro() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

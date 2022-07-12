@@ -23,10 +23,8 @@
  */
 package mp2.udistrital.edu.co.figurasGraficas.presentación;
 
-import mp2.udistrital.edu.co.figurasGraficas.Coordenadas;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
-import mp2.udistrital.edu.co.figuras.Circulo;
-import mp2.udistrital.edu.co.figurasGraficas.CirculoGrafico;
 import mp2.udistrital.edu.co.figurasGraficas.PolGrafIrr;
 
 /**
@@ -47,33 +45,32 @@ public class Modelo {
 
     public void iniciar() {
         getVista().setVisible(true);
-        getVista().getTxtCoordX().setText("20,40,40,20");
-        getVista().getTxtCoordY().setText("20,20,40,40");
+//        getVista().getTxtCoordX().setText("20,40,40,20");
+//        getVista().getTxtCoordY().setText("20,20,40,40");
+        getVista().getTxtCoordX().setText("100, 300, 300, 500, 550");
+        getVista().getTxtCoordY().setText("100, 100, 200, 400, 500");
         getVista().getBtnCalculate().doClick();
     }
 
     void mostrarArea() {
-        Coordenadas coor = Coordenadas.getInstance();
-        coor.setCoordsXDatos(getVista().getTxtCoordX().getText());
-        coor.setCoordsYDatos(getVista().getTxtCoordY().getText());
-        int[] coordsYM = coor.getCoordsYDatos();
-        int[] coordsXM = coor.getCoordsXDatos();
+        PolGrafIrr pgi = new PolGrafIrr("poli");
 
-        if (coordsYM.length == 0 || coordsXM.length == 0) {
+        pgi.setCoordsX(getVista().getTxtCoordX().getText());
+        pgi.setCoordsY(getVista().getTxtCoordY().getText());
+
+        pgi.setVertices(pgi.getCoordsX().length);
+//        System.out.println(pgi.getVertices());
+//        System.out.println(Arrays.toString(pgi.getCoordsX()));
+//        System.out.println(Arrays.toString(pgi.getCoordsY()));
+
+        if (pgi.getVertices() == 0) {
             JOptionPane.showMessageDialog(null, "Las coordenadas no deben estar vacias, intentelo nuevamente");
-        } else if (coordsYM.length > 0 && coordsYM.length <= 3 || coordsXM.length > 0 && coordsXM.length <= 3) {
-            if (coordsYM.length == 1 && coordsYM.length == 1) {
-                CirculoGrafico cg = new CirculoGrafico(new Circulo(coordsYM[0]), (int) coordsYM[0], (int) coordsYM[0]);
-                cg.dibujar(getVistaPoligono().getGraphics());
-                JOptionPane.showMessageDialog(null, "El área del circulo es: " + cg.getArea());
-            } else {
-                JOptionPane.showMessageDialog(null, "El numero de coordenadas debe ser mayor a 3 puntos, intentelo nuevamente");
-            }
-        } else if (coordsYM.length > 3 && coordsXM.length > 3) {
-            PolGrafIrr pgi = new PolGrafIrr("",coordsXM,coordsYM);
+        } else if (pgi.getVertices() > 0 && pgi.getVertices() <= 2) {
+            JOptionPane.showMessageDialog(null, "El numero de coordenadas debe ser mayor a 3 puntos, intentelo nuevamente");
+        } else if (pgi.getVertices() > 3) {
             getVistaPoligono().setVisible(true);
             pgi.dibujar(getVistaPoligono().getGraphics());
-            JOptionPane.showMessageDialog(null, "El area del poligono irregular evaluado es: " + pgi.getArea());
+            JOptionPane.showMessageDialog(null, "Para dibujar el grafico primero debe calcular el área, vuelva a calcular.\nEl area del poligono irregular evaluado es: " + pgi.getArea() + "\nEl perimetro es: " + pgi.getPerimetro());
         }
     }
 

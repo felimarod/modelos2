@@ -21,27 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package mp2.udistrital.edu.co.figurasGraficas.presentación;
+package mp2.udistrital.edu.co.figurasGraficas;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 /**
  *
  * @author felipe
  */
-public class VistaPoligono extends JFrame {
-//    Canvas lienzo;
-    
-    public VistaPoligono() {
-        super("Dibujo del poligono");
-        getContentPane().setBackground(Color.white);
-        setSize(900, 900);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(HIDE_ON_CLOSE);
-    }
+public interface Dibujable {
+    void dibujar(Graphics g);
 }
